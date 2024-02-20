@@ -1,23 +1,22 @@
-using Api.Repositories;
+using Api.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
+using Repositories.Contracts;
+using Repositories.EFCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers()
     .AddNewtonsoftJson();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<RespositoryContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("postgreSQLConnection"))
-); // Inversion Of Control'a yani IoC'a register edicez.
+builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.ConfigureRepositoryManager();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.ConfigureServiceManager();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

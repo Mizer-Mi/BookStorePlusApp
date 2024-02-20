@@ -1,12 +1,12 @@
-﻿using Api.Models;
-using Api.Repositories.Config;
+﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Config;
 
-namespace Api.Repositories
+namespace Repositories.EFCore
 {
-    public class RespositoryContext : DbContext
+    public class RepositoryContext : DbContext
     {
-        public RespositoryContext(DbContextOptions options) : base(options)
+        public RepositoryContext(DbContextOptions options) : base(options)
         {
 
         }
