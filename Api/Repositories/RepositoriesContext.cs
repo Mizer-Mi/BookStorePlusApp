@@ -1,4 +1,5 @@
 ﻿using Api.Models;
+using Api.Repositories.Config;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories
@@ -9,9 +10,12 @@ namespace Api.Repositories
         {
 
         }
-
-
-
         public DbSet<Book> Books { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new BookConfig());
+        }
+
+
     }
 }
