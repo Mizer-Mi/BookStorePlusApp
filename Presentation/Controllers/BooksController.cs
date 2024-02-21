@@ -1,13 +1,14 @@
 ﻿using Entities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Repositories.Contracts;
-using Repositories.EFCore;
 using Services.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Api.Controllers
+namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -19,7 +20,7 @@ namespace Api.Controllers
         {
             _manager = manager;
         }
-
+        [HttpGet]
         public IActionResult GetAllBooks()
         {
             try
@@ -39,7 +40,7 @@ namespace Api.Controllers
         {
             try
             {
-                var book = _manager.BookService.GetOneBookById(id,false);
+                var book = _manager.BookService.GetOneBookById(id, false);
                 if (book == null) return NotFound();
                 return Ok(book);
             }
@@ -72,7 +73,7 @@ namespace Api.Controllers
             {
                 if (book is null)
                     return BadRequest();
-                _manager.BookService.UpdateOneBook(id,book,true);
+                _manager.BookService.UpdateOneBook(id, book, true);
                 return StatusCode(204);
             }
             catch (Exception ex)
@@ -85,7 +86,7 @@ namespace Api.Controllers
         {
             try
             {
-                _manager.BookService.DeleteOneBook(id,false);
+                _manager.BookService.DeleteOneBook(id, false);
                 return StatusCode(204);
             }
             catch (Exception ex)
@@ -116,11 +117,11 @@ namespace Api.Controllers
         {
             try
             {
-                var entity = _manager.BookService.GetOneBookById(id,true);
+                var entity = _manager.BookService.GetOneBookById(id, true);
                 if (entity is null) return NotFound();
                 jsonPatch.ApplyTo(entity);
-                _manager.BookService.UpdateOneBook(id,entity,true);
-                return NotFound();
+                _manager.BookService.UpdateOneBook(id, entity, true);
+                return NoContent();
             }
             catch (Exception ex)
             {

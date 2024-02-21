@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    internal class IBookManager : IBookService
+    public class BookManager : IBookService
     {
         private readonly IRepositoryManager _manager;
 
-        public IBookManager(IRepositoryManager manager)
+        public BookManager(IRepositoryManager manager)
         {
             _manager = manager;
         }

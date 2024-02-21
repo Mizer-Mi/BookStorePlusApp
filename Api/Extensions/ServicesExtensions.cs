@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 using Repositories.EFCore;
+using Services;
 using Services.Contracts;
 
 namespace Api.Extensions
