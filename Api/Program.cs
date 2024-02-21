@@ -1,6 +1,7 @@
 using Api.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
+using NLog;
 using Repositories.Contracts;
 using Repositories.EFCore;
 using Services;
@@ -8,7 +9,7 @@ using Services.Contracts;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
+LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
@@ -16,9 +17,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
-builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.RegisterRepositories();
 builder.Services.ConfigureServiceManager();
-builder.Services.AddScoped<IBookService, BookManager>();
+builder.Services.RegisterServices();
+builder.Services.ConfigureLoggerService();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
