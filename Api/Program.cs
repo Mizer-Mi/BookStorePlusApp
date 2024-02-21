@@ -23,6 +23,15 @@ builder.Services.RegisterServices();
 builder.Services.ConfigureLoggerService();
 var app = builder.Build();
 
+var logger = app.Services.GetRequiredService<ILoggerService>();
+app.ConfigureExceptionHandler(logger);
+
+
+if (app.Environment.IsProduction())
+{
+    app.UseHsts();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
