@@ -16,10 +16,12 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureSqlContext(builder.Configuration);
+
 builder.Services.ConfigureRepositoryManager();
 builder.Services.RegisterRepositories();
 builder.Services.ConfigureServiceManager();
 builder.Services.RegisterServices();
+
 builder.Services.ConfigureLoggerService();
 var app = builder.Build();
 

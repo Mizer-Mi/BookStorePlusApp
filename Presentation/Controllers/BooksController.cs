@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
+using static Entities.Exceptions.NotFoundException;
 
 namespace Presentation.Controllers
 {
@@ -24,9 +25,7 @@ namespace Presentation.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetBook([FromRoute(Name = "id")] int id)
         {
-            throw new Exception("!!!!");
             var book = _manager.BookService.GetOneBookById(id, false);
-            if (book == null) return NotFound();
             return Ok(book);
 
         }
@@ -65,7 +64,6 @@ namespace Presentation.Controllers
         public IActionResult PartiallyUpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<Book> jsonPatch)
         {
             var entity = _manager.BookService.GetOneBookById(id, true);
-            if (entity is null) return NotFound();
             jsonPatch.ApplyTo(entity);
             _manager.BookService.UpdateOneBook(id, entity, true);
             return NoContent();
