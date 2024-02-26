@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
@@ -38,7 +39,7 @@ namespace Presentation.Controllers
             return StatusCode(201, book);
         }
         [HttpPut("{id:int}")]
-        public IActionResult UpdateBook([FromRoute(Name = "id")] int id, [FromBody] Book book)
+        public IActionResult UpdateBook([FromRoute(Name = "id")] int id, [FromBody] BookDtoForUpdate book)
         {
             if (book is null)
                 return BadRequest();
@@ -64,8 +65,8 @@ namespace Presentation.Controllers
         public IActionResult PartiallyUpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<Book> jsonPatch)
         {
             var entity = _manager.BookService.GetOneBookById(id, true);
-            jsonPatch.ApplyTo(entity);
-            _manager.BookService.UpdateOneBook(id, entity, true);
+            //jsonPatch.ApplyTo(entity);
+            //_manager.BookService.UpdateOneBook(id, entity, true);
             return NoContent();
         }
 
