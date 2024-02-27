@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entities.DTO;
+using Entities.Exceptions;
 using Entities.Models;
 using Repositories.Contracts;
 using Services.Contracts;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Entities.Exceptions.BadRequestException;
 using static Entities.Exceptions.NotFoundException;
 
 namespace Services
@@ -25,11 +27,11 @@ namespace Services
             _mapper = mapper;
         }
 
-        public Book CreateOneBook(Book book)
+        public BookDto CreateOneBook(BookDtoForInsertion book)
         {
-            _manager.Book.CreateOneBook(book);
+            _manager.Book.CreateOneBook(_mapper.Map<Book>(book));
             _manager.Save();
-            return book;
+            return _mapper.Map<BookDto>(book);
         }
 
         public void DeleteOneBook(int id, bool trackChanges)
@@ -48,21 +50,41 @@ namespace Services
             return _mapper.Map <IEnumerable<BookDto>>(result);
         }
 
-        public Book GetOneBookById(int id, bool trackChanges)
+        public BookDto GetOneBookById(int id, bool trackChanges)
         {
             var book= _manager.Book.GetOneBookById(id,trackChanges);
             if (book is null)
                 throw new BookNotFoundException(id);
-            return book;
+            return _mapper.Map<BookDto>(book);
         }
-        public void UpdateOneBook(int id, BookDtoForUpdate book,bool trackChanges)
+
+        public (BookDtoForUpdate bookDtoForUpdate, Book book) GetOneBookForPatch(int id, bool trackChanges)
         {
-            var entity = _manager.Book.GetOneBookById(id, false); //update için izlemek gereksizdir,   
+            var book = _manager.Book.GetOneBookById(id,trackChanges);
+            if (book is null)
+                throw new BookNotFoundException(id);
+            var bookDtokForUpdate = _mapper.Map<BookDtoForUpdate>(book);
+                return (bookDtokForUpdate, book);
+
+        }
+
+        public void SaveChangesForPatch(BookDtoForUpdate bookDtokForUpdate, Book book)
+        {
+            _mapper.Map(bookDtokForUpdate, book);
+            _manager.Save();
+        }
+
+        public BookDto UpdateOneBook(int id, BookDtoForUpdate book,bool trackChanges)
+        {
+            var entity = _manager.Book.GetOneBookById(id, trackChanges); //update için izlemek gereksizdir,   
                if (book is null || entity is null)
                 throw new BookNotFoundException(id);
-            entity= _mapper.Map<BookDtoForUpdate,Book>(book);
-            _manager.Book.Update(entity);
+            if (!book.Id.Equals(id))
+                throw new BookBadRequestException(id);
+            var result= _mapper.Map<Book>(book);
+            _manager.Book.Update(result);
             _manager.Save();
+            return _mapper.Map<BookDto>(result);
         }
     }
 }

@@ -8,8 +8,11 @@ namespace Api.Utilities
     {
         public MappingProfile()
         {
-            CreateMap<Book,BookDto>();
-            CreateMap<BookDtoForUpdate, Book>();
+            CreateMap<Book,BookDto>().ReverseMap();
+            CreateMap<BookDtoForUpdate, Book>().ReverseMap();
+            CreateMap<BookDtoForUpdate, BookDto>().ReverseMap();
+            CreateMap<BookDtoForInsertion, Book>().ReverseMap();
+            CreateMap<BookDtoForInsertion, BookDto>().ReverseMap();
         }
 
     }
