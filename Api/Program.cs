@@ -22,6 +22,7 @@ builder.Services.AddControllers(config =>
     .AddNewtonsoftJson();
 
 builder.Services.ConfigureActionFilters();
+builder.Services.ConfigureCors();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureSqlContext(builder.Configuration);
@@ -51,6 +52,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

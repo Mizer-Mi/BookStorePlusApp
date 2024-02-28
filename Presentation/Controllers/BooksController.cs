@@ -1,9 +1,11 @@
 ﻿using Entities.DTO;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
+using System.Text.Json;
 using static Entities.Exceptions.NotFoundException;
 
 namespace Presentation.Controllers
@@ -20,10 +22,11 @@ namespace Presentation.Controllers
             _manager = manager;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllBooks()
+        public async Task<IActionResult> GetAllBooks([FromQuery] BookParameters bookParameters)
         {
-            var books = await _manager.BookService.GetAllBooksAsync(false);
-            return Ok(books);
+            var pagedResult = await _manager.BookService.GetAllBooksAsync(bookParameters,false);
+            Response.Headers.Add("X-Pagination",JsonSerializer.Serialize(pagedResult.metaData));
+            return Ok(pagedResult.Item1);
         }
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetBook([FromRoute(Name = "id")] int id)
