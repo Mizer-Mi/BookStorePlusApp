@@ -2,6 +2,7 @@
 using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contracts;
 using static Entities.Exceptions.NotFoundException;
 
@@ -9,6 +10,7 @@ namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LogFilterAttiribute))]
     public class BooksController : ControllerBase
     {
         private readonly IServiceManager _manager;
@@ -30,19 +32,18 @@ namespace Presentation.Controllers
             return Ok(book);
 
         }
+
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPost]
         public async Task<IActionResult> CreateBook([FromBody] BookDtoForInsertion book)
         {
-            if (book is null)
-                return BadRequest();
-            await _manager.BookService.CreateOneBookAsync(book);
-            return StatusCode(201, book);
+            var result = await _manager.BookService.CreateOneBookAsync(book);
+            return StatusCode(201, result);
         }
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateBook([FromRoute(Name = "id")] int id, [FromBody] BookDtoForUpdate book)
         {
-            if (book is null)
-                return BadRequest();
             await _manager.BookService.UpdateOneBookAsync(id, book, false);
             return StatusCode(200, book);
         }

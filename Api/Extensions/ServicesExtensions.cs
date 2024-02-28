@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Presentation.ActionFilters;
 using Repositories.Contracts;
 using Repositories.EFCore;
 using Services;
@@ -25,6 +26,10 @@ options.UseNpgsql(configuration.GetConnectionString("postgreSQLConnection")));
         {
             services.AddScoped<IBookService, BookManager>();
         }
-
+        public static void ConfigureActionFilters(this IServiceCollection services)
+        {
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddSingleton<LogFilterAttiribute>();
+        }
     }
 }

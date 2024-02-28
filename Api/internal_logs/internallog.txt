@@ -265,3 +265,19 @@
 2024-02-28 11:41:55.0446 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
 2024-02-28 11:41:55.0550 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\admin-it\Desktop\Api\BookStorePlusApp\Api\nlog.config
 2024-02-28 11:41:55.0692 Info Configuration initialized.
+2024-02-28 12:54:24.6873 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-02-28 12:54:24.7693 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-02-28 12:54:24.7812 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\admin-it\Desktop\Api\BookStorePlusApp\Api\nlog.config
+2024-02-28 12:54:24.7921 Info Configuration initialized.
+2024-02-28 12:55:47.8443 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-02-28 12:55:47.8961 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-02-28 12:55:48.2153 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\admin-it\Desktop\Api\BookStorePlusApp\Api\nlog.config
+2024-02-28 12:55:48.2344 Info Configuration initialized.
+2024-02-28 12:57:14.6640 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-02-28 12:57:14.7314 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-02-28 12:57:14.7560 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\admin-it\Desktop\Api\BookStorePlusApp\Api\nlog.config
+2024-02-28 12:57:14.7805 Info Configuration initialized.
+2024-02-28 13:18:14.9952 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-02-28 13:18:15.0624 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-02-28 13:18:15.0964 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\admin-it\Desktop\Api\BookStorePlusApp\Api\nlog.config
+2024-02-28 13:18:15.1412 Info Configuration initialized.
