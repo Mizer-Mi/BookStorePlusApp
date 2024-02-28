@@ -17,9 +17,9 @@ namespace Repositories.EFCore
             _bookRepository = bookRepository;
         }
         public IBookRepository Book => _bookRepository;
-        public void Save()
+        public async Task SaveAsync()
         {
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         }
     }
 }

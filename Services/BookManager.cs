@@ -27,40 +27,40 @@ namespace Services
             _mapper = mapper;
         }
 
-        public BookDto CreateOneBook(BookDtoForInsertion book)
+        public async Task<BookDto> CreateOneBookAsync(BookDtoForInsertion book)
         {
             _manager.Book.CreateOneBook(_mapper.Map<Book>(book));
-            _manager.Save();
+           await _manager.SaveAsync();
             return _mapper.Map<BookDto>(book);
         }
 
-        public void DeleteOneBook(int id, bool trackChanges)
+        public async Task DeleteOneBookAsync(int id, bool trackChanges)
         {
-            var entity = _manager.Book.GetOneBookById(id, trackChanges);
+            var entity = await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
             if (entity is null)
                 throw new BookNotFoundException(id);
 
             _manager.Book.DeleteOneBook(entity);
-            _manager.Save();
+            await _manager.SaveAsync();
         }
 
-        public IEnumerable<BookDto> GetAllBooks(bool trackChanges)
+        public async Task<IEnumerable<BookDto>> GetAllBooksAsync(bool trackChanges)
         {
-            var result = _manager.Book.GetAllBooks(trackChanges);
+            var result = await _manager.Book.GetAllBooksAsync(trackChanges);
             return _mapper.Map <IEnumerable<BookDto>>(result);
         }
 
-        public BookDto GetOneBookById(int id, bool trackChanges)
+        public async Task<BookDto> GetOneBookByIdAsync(int id, bool trackChanges)
         {
-            var book= _manager.Book.GetOneBookById(id,trackChanges);
+            var book= await _manager.Book.GetOneBookByIdAsync(id,trackChanges);
             if (book is null)
                 throw new BookNotFoundException(id);
             return _mapper.Map<BookDto>(book);
         }
 
-        public (BookDtoForUpdate bookDtoForUpdate, Book book) GetOneBookForPatch(int id, bool trackChanges)
+        public async Task<(BookDtoForUpdate bookDtoForUpdate, Book book)> GetOneBookForPatchAsync(int id, bool trackChanges)
         {
-            var book = _manager.Book.GetOneBookById(id,trackChanges);
+            var book = await _manager.Book.GetOneBookByIdAsync(id,trackChanges);
             if (book is null)
                 throw new BookNotFoundException(id);
             var bookDtokForUpdate = _mapper.Map<BookDtoForUpdate>(book);
@@ -68,22 +68,22 @@ namespace Services
 
         }
 
-        public void SaveChangesForPatch(BookDtoForUpdate bookDtokForUpdate, Book book)
+        public async Task SaveChangesForPatchAsync(BookDtoForUpdate bookDtokForUpdate, Book book)
         {
             _mapper.Map(bookDtokForUpdate, book);
-            _manager.Save();
+           await _manager.SaveAsync();
         }
 
-        public BookDto UpdateOneBook(int id, BookDtoForUpdate book,bool trackChanges)
+        public async Task<BookDto> UpdateOneBookAsync(int id, BookDtoForUpdate book,bool trackChanges)
         {
-            var entity = _manager.Book.GetOneBookById(id, trackChanges); //update için izlemek gereksizdir,   
+            var entity = await _manager.Book.GetOneBookByIdAsync(id, trackChanges); //update için izlemek gereksizdir,   
                if (book is null || entity is null)
                 throw new BookNotFoundException(id);
             if (!book.Id.Equals(id))
                 throw new BookBadRequestException(id);
             var result= _mapper.Map<Book>(book);
             _manager.Book.Update(result);
-            _manager.Save();
+           await _manager.SaveAsync();
             return _mapper.Map<BookDto>(result);
         }
     }
