@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.DTO;
+using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
 using Repositories.Contracts;
 using Repositories.EFCore;
@@ -42,6 +43,9 @@ options.UseNpgsql(configuration.GetConnectionString("postgreSQLConnection")));
                 .AllowAnyMethod()
                 .WithExposedHeaders("X-Pagination"));
             });
+        }
+        public static void ConfigureDataShaper (this IServiceCollection services) {
+            services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>();
         }
     }
 }
