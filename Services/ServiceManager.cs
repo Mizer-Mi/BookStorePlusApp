@@ -1,4 +1,5 @@
-﻿using Repositories.Contracts;
+﻿using Entities.DTO;
+using Repositories.Contracts;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Services
     public class ServiceManager : IServiceManager
     {
         private readonly IBookService _bookService;
-        public ServiceManager(IRepositoryManager repositoryManager, IBookService bookService)
+        public ServiceManager(IRepositoryManager repositoryManager, IBookService bookService,ILoggerService logger, IDataShaper<BookDto> shaper)
         {
             _bookService = bookService;
         }
