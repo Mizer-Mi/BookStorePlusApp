@@ -1,4 +1,6 @@
 ﻿using Entities.DTO;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
 using Repositories.Contracts;
@@ -31,6 +33,7 @@ options.UseNpgsql(configuration.GetConnectionString("postgreSQLConnection")));
         {
             services.AddScoped<ValidationFilterAttribute>();
             services.AddSingleton<LogFilterAttiribute>();
+            services.AddScoped<ValidateMediaTypeAttribute>();
         }
         
         public static void ConfigureCors(this IServiceCollection services)
@@ -46,6 +49,22 @@ options.UseNpgsql(configuration.GetConnectionString("postgreSQLConnection")));
         }
         public static void ConfigureDataShaper (this IServiceCollection services) {
             services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>();
+        }
+        public static void AddCustomMediaTypes(this IServiceCollection services)
+        {
+            services.Configure<MvcOptions>(config =>
+            {
+                var systemTextJsonOutputFormatter = config.OutputFormatters.OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault();
+                if (systemTextJsonOutputFormatter is not null)
+                {
+                    systemTextJsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.mizer.heteoas+json");
+                }
+                var xmlOutoutFormatter = config.OutputFormatters.OfType<XmlDataContractSerializerOutputFormatter>()?.FirstOrDefault();
+                if (xmlOutoutFormatter is not null)
+                {
+                    xmlOutoutFormatter.SupportedMediaTypes.Add("application/vnd.mizer.heteoas+xml");
+                }
+            });
         }
     }
 }

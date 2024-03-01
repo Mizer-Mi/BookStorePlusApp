@@ -13,6 +13,7 @@ namespace Presentation.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ServiceFilter(typeof(LogFilterAttiribute))]
+    [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
     public class BooksController : ControllerBase
     {
         private readonly IServiceManager _manager;
